@@ -15,7 +15,7 @@ export const Modal = ({ selectedImage, closeModal }) => {
     return () => {
       window.removeEventListener('keydown', handleCloseModal);
     };
-  }, []);
+  }, [closeModal]);
 
   const handleOpenModal = () => {
     const instance = basicLightbox.create(
