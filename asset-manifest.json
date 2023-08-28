@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/React-Image-Finder/static/css/main.89b73bfe.css",
-    "main.js": "/React-Image-Finder/static/js/main.ad066fbe.js",
-    "index.html": "/React-Image-Finder/index.html",
-    "static/media/icons8-search.svg": "/React-Image-Finder/static/media/icons8-search.5b5a18e8aba6281faacc.svg",
-    "main.89b73bfe.css.map": "/React-Image-Finder/static/css/main.89b73bfe.css.map",
-    "main.ad066fbe.js.map": "/React-Image-Finder/static/js/main.ad066fbe.js.map"
+    "main.css": "/react-image-finder/static/css/main.4c4095e4.css",
+    "main.js": "/react-image-finder/static/js/main.e64d9061.js",
+    "index.html": "/react-image-finder/index.html",
+    "static/media/icons8-search.svg": "/react-image-finder/static/media/icons8-search.5b5a18e8aba6281faacc.svg",
+    "main.4c4095e4.css.map": "/react-image-finder/static/css/main.4c4095e4.css.map",
+    "main.e64d9061.js.map": "/react-image-finder/static/js/main.e64d9061.js.map"
   },
   "entrypoints": [
-    "static/css/main.89b73bfe.css",
-    "static/js/main.ad066fbe.js"
+    "static/css/main.4c4095e4.css",
+    "static/js/main.e64d9061.js"
   ]
 }
