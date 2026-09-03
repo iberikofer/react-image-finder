@@ -1,114 +1,136 @@
 import { useState } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
+import { Button } from './Button/Button';
+import { Loader } from './Loader/Loader';
 import { Modal } from './Modal/Modal';
-import PropTypes from 'prop-types';
+import { fetchImages } from '../services/pixabay-api';
+import css from './App.module.css';
 
 export const App = () => {
-  const [state, setState] = useState({
-    query: '',
-    images: [],
-    selectedImage: null,
-    currentPage: 1,
-    isLoading: false,
-  });
+  const [query, setQuery] = useState('');
+  const [images, setImages] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalHits, setTotalHits] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  const handleSavingQuery = queryText => {
-    setState(prevState => ({
-      ...prevState,
-      query: queryText,
-    }));
+  const handleSearchSubmit = async newQuery => {
+    if (newQuery === query && images.length > 0) {
+      return;
+    }
+
+    setQuery(newQuery);
+    setImages([]);
+    setPage(1);
+    setTotalHits(0);
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const { hits, totalHits: count } = await fetchImages(newQuery, 1);
+      setImages(hits);
+      setTotalHits(count);
+    } catch (err) {
+      setError('Unable to fetch images. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleAddingImages = imagesArr => {
-    setState(prevState => ({
-      ...prevState,
-      images: imagesArr,
-    }));
+  const handleLoadMore = async () => {
+    const nextPage = page + 1;
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const { hits } = await fetchImages(query, nextPage);
+      setImages(prevImages => [...prevImages, ...hits]);
+      setPage(nextPage);
+
+      // Smoothly scroll down by two row heights
+      setTimeout(() => {
+        window.scrollBy({
+          top: 500,
+          behavior: 'smooth',
+        });
+      }, 100);
+    } catch (err) {
+      setError('Failed to load more images. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleAddingMoreImages = imagesArr => {
-    setState(prevState => ({
-      ...prevState,
-      images: [...prevState.images, ...imagesArr],
-    }));
-  };
-
-  const handleError = errorMessage => {
-    setState(prevState => ({
-      ...prevState,
-      errorText: errorMessage,
-    }));
-    console.log(errorMessage);
-  };
-
-  const handleCurrentPage = () => {
-    setState(prevState => ({
-      ...prevState,
-      currentPage: state.currentPage + 1,
-    }));
-  };
-
-  const handleOpenModal = image => {
-    setState(prevState => ({
-      ...prevState,
-      selectedImage: image,
-    }));
+  const handleSelectImage = image => {
+    setSelectedImage(image);
   };
 
   const handleCloseModal = () => {
-    setState(prevState => ({
-      ...prevState,
-      selectedImage: null,
-    }));
+    setSelectedImage(null);
   };
 
-  const handleLoader = () => {
-    setState(prevState => ({
-      ...prevState,
-      isLoading: !prevState.isLoading,
-    }));
-  };
+  const hasMoreImages = images.length > 0 && images.length < totalHits;
 
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'grid',
-        fontSize: 40,
-        color: '#010101',
-        gridTemplateColumns: '1fr',
-        gridGap: 16,
-        paddingBottom: 25,
-      }}
-    >
-      <Searchbar
-        addImages={handleAddingImages}
-        onError={handleError}
-        saveQuery={handleSavingQuery}
-      />
-      <ImageGallery
-        state={state}
-        loaderToggle={handleLoader}
-        addMoreImages={handleAddingMoreImages}
-        onError={handleError}
-        saveCurrentPage={handleCurrentPage}
-        openModal={handleOpenModal}
-      />
-      {state.selectedImage && (
+    <div className={css.app}>
+      <Searchbar onSubmit={handleSearchSubmit} />
+
+      <main className={css.main}>
+        <h2 className={css.srOnly}>Search Results</h2>
+
+        {error && (
+          <div role="alert" className={css.errorMessage}>
+            {error}
+          </div>
+        )}
+
+        {images.length > 0 && (
+          <ImageGallery images={images} onSelect={handleSelectImage} />
+        )}
+
+        {isLoading && <Loader />}
+
+        {!isLoading && hasMoreImages && (
+          <Button onClick={handleLoadMore} isLoading={isLoading} />
+        )}
+
+        {!isLoading && query && images.length === 0 && !error && (
+          <p className={css.noResults}>
+            No images found for &ldquo;{query}&rdquo;. Try another search term.
+          </p>
+        )}
+
+        {!query && images.length === 0 && !isLoading && (
+          <p className={css.placeholderText}>
+            Enter keywords in the search bar above to discover photos.
+          </p>
+        )}
+      </main>
+
+      <footer className={css.footer}>
+        <p>
+          Powered by{' '}
+          <a
+            href="https://pixabay.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={css.footerLink}
+          >
+            Pixabay API
+          </a>
+          . Built with React.
+        </p>
+      </footer>
+
+      {selectedImage && (
         <Modal
-          selectedImage={state.selectedImage.largeImageURL}
+          selectedImage={selectedImage.largeImageURL}
+          altText={selectedImage.tags}
           closeModal={handleCloseModal}
         />
       )}
     </div>
   );
-};
-
-App.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.object),
-  currentPage: PropTypes.number,
-  query: PropTypes.string,
-  isLoading: PropTypes.bool,
-  selectedImage: PropTypes.object,
 };

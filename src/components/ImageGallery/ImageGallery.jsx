@@ -1,54 +1,29 @@
-import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
-import { Button } from '../Button/Button';
-import css from './ImageGallery.module.css';
 import PropTypes from 'prop-types';
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
+import css from './ImageGallery.module.css';
 
-export const ImageGallery = ({
-  state,
-  loaderToggle,
-  addMoreImages,
-  onError,
-  saveCurrentPage,
-  openModal,
-}) => {
-  const { images, isLoading } = state;
-  const buttonIsShowed =
-    images.length > 0 &&
-    !isLoading &&
-    images.length >= 12 &&
-    images.length % 12 === 0;
+export const ImageGallery = ({ images, onSelect }) => {
   return (
-    <div>
-      <div className={css.imageGallery}>
-        {images.map(image => (
-          <ImageGalleryItem
-            key={image.id}
-            id={image.id}
-            image={image}
-            state={state}
-            openModal={openModal}
-          />
-        ))}
-      </div>
-      {buttonIsShowed && (
-        <Button
-          state={state}
-          loaderToggle={loaderToggle}
-          addMoreImages={addMoreImages}
-          onError={onError}
-          saveCurrentPage={saveCurrentPage}
+    <ul className={css.imageGallery}>
+      {images.map(image => (
+        <ImageGalleryItem
+          key={image.id}
+          image={image}
+          onSelect={onSelect}
         />
-      )}
-    </div>
+      ))}
+    </ul>
   );
 };
 
 ImageGallery.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.object),
-  isLoading: PropTypes.bool,
-  loaderToggle: PropTypes.func.isRequired,
-  addMoreImages: PropTypes.func.isRequired,
-  onError: PropTypes.func.isRequired,
-  saveCurrentPage: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+      tags: PropTypes.string,
+    })
+  ).isRequired,
+  onSelect: PropTypes.func.isRequired,
 };

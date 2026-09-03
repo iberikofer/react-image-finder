@@ -1,52 +1,45 @@
-import axios from 'axios';
-import css from './Searchbar.module.css';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
+import css from './Searchbar.module.css';
 
-export const Searchbar = ({ addImages, onError, saveQuery }) => {
-  const handleSubmit = async e => {
+export const Searchbar = ({ onSubmit }) => {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleChange = e => {
+    setInputValue(e.target.value);
+  };
+
+  const handleSubmit = e => {
     e.preventDefault();
-    const inputValue = e.target.elements.queryInput.value.trim();
-    if (inputValue) {
-      try {
-        const response = await axios.get(
-          `https://pixabay.com/api/?q=${inputValue}&page=1&key=37196317-2c59749f8d103970cbe5890ed&image_type=photo&orientation=horizontal&per_page=12`
-        );
-        const options = response.data.hits.map(image => ({
-          id: image.id,
-          webformatURL: image.webformatURL,
-          largeImageURL: image.largeImageURL,
-          tags: image.tags,
-        }));
-        addImages(options);
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth',
-        });
-      } catch (error) {
-        onError(error);
-      } finally {
-        saveQuery(inputValue);
-        e.target.reset();
-      }
-    } else {
-      console.log('Your search field must not be empty!');
+    const query = inputValue.trim();
+    if (!query) {
+      return;
     }
+    onSubmit(query);
   };
 
   return (
     <header className={css.searchbar}>
-      <form className={css.searchForm} onSubmit={handleSubmit}>
-        <button type="submit" className={css.searchFormButton}>
+      <h1 className={css.srOnly}>React Image Finder</h1>
+      <form className={css.searchForm} onSubmit={handleSubmit} role="search">
+        <button
+          type="submit"
+          className={css.searchFormButton}
+          aria-label="Search images"
+        >
           <span className={css.searchFormButtonLabel}>Search</span>
         </button>
 
         <input
           name="queryInput"
           className={css.searchFormInput}
-          type="text"
+          type="search"
           autoComplete="off"
           autoFocus
-          placeholder="Search images and photos"
+          placeholder="Search images and photos..."
+          aria-label="Search images and photos"
+          value={inputValue}
+          onChange={handleChange}
         />
       </form>
     </header>
@@ -54,9 +47,5 @@ export const Searchbar = ({ addImages, onError, saveQuery }) => {
 };
 
 Searchbar.propTypes = {
-  addImages: PropTypes.func.isRequired,
-  onError: PropTypes.func.isRequired,
-  saveQuery: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
-
-export default Searchbar;

@@ -1,26 +1,18 @@
-import { FidgetSpinner } from 'react-loader-spinner';
+import { ColorRing } from 'react-loader-spinner';
+import css from './Loader.module.css';
 
 export const Loader = () => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <FidgetSpinner
+    <div className={css.loaderWrapper} role="status" aria-live="polite">
+      <ColorRing
         visible={true}
         height="80"
         width="80"
-        ariaLabel="dna-loading"
+        ariaLabel="loading-images"
         wrapperStyle={{}}
-        wrapperClass="dna-wrapper"
-        ballColors={['#ff0000', '#00ff00', '#0000ff']}
-        backgroundColor="gold"
+        wrapperClass="color-ring-wrapper"
+        colors={['#e55d87', '#5fc3e4', '#e55d87', '#5fc3e4', '#e55d87']}
       />
     </div>
   );
 };
-
-export default Loader;

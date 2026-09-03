@@ -1,113 +1,105 @@
-# React homework template
+# 🔍 React Image Finder
 
-Этот проект был создан при помощи
-[Create React App](https://github.com/facebook/create-react-app). Для знакомства
-и настройки дополнительных возможностей
-[обратись к документации](https://facebook.github.io/create-react-app/docs/getting-started).
+> A modern, responsive, and accessible image search application built with React 18, Pixabay API, and modular CSS.
 
-## Создание репозитория по шаблону
+---
 
-Используй этот репозиторий организации GoIT как шаблон для создания репозитория
-своего проекта. Для этого нажми на кнопку `«Use this template»` и выбери опцию
-`«Create a new repository»`, как показано на изображении.
+## 📖 Overview
 
-![Creating repo from a template step 1](./assets/template-step-1.png)
+**React Image Finder** is a web application that enables users to quickly search, explore, and view high-resolution photography and vector graphics powered by the [Pixabay API](https://pixabay.com/api/docs/). Built with modern React architecture, it emphasizes accessibility (WCAG compliance), responsive design, and smooth interactions.
 
-На следующем шаге откроется страница создания нового репозитория. Заполни поле
-его имени, убедись что репозиторий публичный, после чего нажми кнопку
-`«Create repository from template»`.
+---
 
-![Creating repo from a template step 2](./assets/template-step-2.png)
+## ✨ Key Features
 
-После того как репозиторий будет создан, необходимо перейти в настройки
-созданного репозитория на вкладку `Settings` > `Actions` > `General` как
-показано на изображении.
+- **Instant Search**: Query hundreds of thousands of curated photos with instant parameterized search.
+- **Batch Pagination**: Seamless "Load more" functionality with smooth auto-scroll to newly appended items.
+- **Accessible Modal Viewer**: Full-screen preview modal with keyboard navigation (`Esc` key support), backdrop click dismissal, and background scroll locking.
+- **WCAG & A11y Compliant**: Semantic HTML5 landmarks (`<header>`, `<main>`, `<footer>`), valid heading hierarchy, accessible search form (`role="search"`), and keyboard-focusable cards.
+- **Secure Architecture**: Complete decoupling of secrets with framework-level `.env` support and `.env.example` templates.
+- **Responsive Layout**: Fluid CSS Grid that adapts elegantly from mobile viewports to ultra-wide displays.
+- **Custom Visual Branding**: Minimalist SVG and multi-resolution raster icons matching the signature rose-to-sky gradient palette.
 
-![Settings GitHub Actions permissions step 1](./assets/gh-actions-perm-1.png)
+---
 
-Проскролив страницу до самого конца, в секции `«Workflow permissions»` выбери
-опцию `«Read and write permissions»` и поставь галочку в чекбоксе. Это
-необходимо для автоматизации процесса деплоя проекта.
+## 🛠️ Tech Stack
 
-![Settings GitHub Actions permissions step 2](./assets/gh-actions-perm-2.png)
+- **Framework**: [React 18](https://react.dev/) (Hooks, functional components)
+- **Bundler / Tooling**: [Create React App](https://create-react-app.dev/) (Webpack 5)
+- **HTTP Client**: [Axios](https://axios-http.com/)
+- **Styling**: Vanilla CSS Modules (scoped styles, CSS custom properties)
+- **Indicators**: [react-loader-spinner](https://www.npmjs.com/package/react-loader-spinner)
+- **Type Checking**: [PropTypes](https://www.npmjs.com/package/prop-types)
+- **CI/CD**: GitHub Actions (`actions/checkout@v4`, `actions/setup-node@v4`, `JamesIves/github-pages-deploy-action@v4`)
 
-Теперь у тебя есть личный репозиторий проекта, со структурой файлов и папок
-репозитория-шаблона. Далее работай с ним как с любым другим личным репозиторием,
-клонируй его себе на компьютер, пиши код, делай коммиты и отправляй их на
-GitHub.
+---
 
-## Подготовка к работе
+## 🚀 Getting Started
 
-1. Убедись что на компьютере установлена LTS-версия Node.js.
-   [Скачай и установи](https://nodejs.org/en/) её если необходимо.
-2. Установи базовые зависимости проекта командой `npm install`.
-3. Запусти режим разработки, выполнив команду `npm start`.
-4. Перейди в браузере по адресу [http://localhost:3000](http://localhost:3000).
-   Эта страница будет автоматически перезагружаться после сохранения изменений в
-   файлах проекта.
+### Prerequisites
 
-## Деплой
+- [Node.js](https://nodejs.org/) (v18.x, v20.x, or later)
+- [npm](https://www.npmjs.com/) (v9.x or later)
+- A free [Pixabay API Key](https://pixabay.com/api/docs/)
 
-Продакшн версия проекта будет автоматически проходить линтинг, собираться и
-деплоиться на GitHub Pages, в ветку `gh-pages`, каждый раз когда обновляется
-ветка `main`. Например, после прямого пуша или принятого пул-реквеста. Для этого
-необходимо в файле `package.json` отредактировать поле `homepage`, заменив
-`your_username` и `your_repo_name` на свои, и отправить изменения на GitHub.
+### Installation
 
-```json
-"homepage": "https://your_username.github.io/your_repo_name/"
-```
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/iberikofer/react-image-finder.git
+   cd react-image-finder
+   ```
 
-Далее необходимо зайти в настройки GitHub-репозитория (`Settings` > `Pages`) и
-выставить раздачу продакшн версии файлов из папки `/root` ветки `gh-pages`, если
-это небыло сделано автоматически.
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-![GitHub Pages settings](./assets/repo-settings.png)
+3. **Configure environment variables**:
+   Copy the `.env.example` template to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+   Open `.env` and add your Pixabay API key:
+   ```env
+   REACT_APP_PIXABAY_API_KEY=your_actual_pixabay_key_here
+   ```
 
-### Статус деплоя
+4. **Start development server**:
+   ```bash
+   npm start
+   ```
+   Open [http://localhost:3000](http://localhost:3000) to view the application in your browser.
 
-Статус деплоя крайнего коммита отображается иконкой возле его идентификатора.
+---
 
-- **Желтый цвет** - выполняется сборка и деплой проекта.
-- **Зеленый цвет** - деплой завершился успешно.
-- **Красный цвет** - во время линтинга, сборки или деплоя произошла ошибка.
+## 📜 Available Scripts
 
-Более детальную информацию о статусе можно посмотреть кликнув по иконке, и в
-выпадающем окне перейти по ссылке `Details`.
+| Command | Description |
+|---|---|
+| `npm start` | Runs the app in development mode with Hot Module Replacement. |
+| `npm run build` | Compiles the production bundle into the `build/` folder. |
+| `npm run lint:js` | Lints all `.js` and `.jsx` files using ESLint. |
+| `npm test` | Launches the test runner in interactive watch mode. |
 
-![Deployment status](./assets/deploy-status.png)
+---
 
-### Живая страница
+## 🌐 Deployment
 
-Через какое-то время, обычно пару минут, живую страницу можно будет посмотреть
-по адресу указанному в отредактированном свойстве `homepage`. Например, вот
-ссылка на живую версию для этого репозитория
-[https://goitacademy.github.io/react-homework-template](https://goitacademy.github.io/react-homework-template).
+This project is configured for automated deployment to **GitHub Pages** via GitHub Actions:
 
-Если открывается пустая страница, убедись что во вкладке `Console` нет ошибок
-связанных с неправильными путями к CSS и JS файлам проекта (**404**). Скорее
-всего у тебя неправильное значение свойства `homepage` в файле `package.json`.
+1. Ensure the `homepage` property in `package.json` points to your GitHub Pages URL:
+   ```json
+   "homepage": "https://<username>.github.io/<repository-name>/"
+   ```
+2. Add your Pixabay API key as a repository secret in GitHub:
+   - Navigate to **Settings** > **Secrets and variables** > **Actions** > **New repository secret**.
+   - Name: `REACT_APP_PIXABAY_API_KEY`
+   - Value: `<your_pixabay_api_key>`
+3. Push to the `main` branch. The `.github/workflows/deploy.yml` workflow will automatically test, build, and deploy the application to the `gh-pages` branch.
 
-### Маршрутизация
+---
 
-Если приложение использует библиотеку `react-router-dom` для маршрутизации,
-необходимо дополнительно настроить компонент `<BrowserRouter>`, передав в пропе
-`basename` точное название твоего репозитория. Слеш в начале строки обязателен.
+## 📄 License
 
-```jsx
-<BrowserRouter basename="/your_repo_name">
-  <App />
-</BrowserRouter>
-```
-
-## Как это работает
-
-![How it works](./assets/how-it-works.png)
-
-1. После каждого пуша в ветку `main` GitHub-репозитория, запускается специальный
-   скрипт (GitHub Action) из файла `.github/workflows/deploy.yml`.
-2. Все файлы репозитория копируются на сервер, где проект инициализируется и
-   проходит линтинг и сборку перед деплоем.
-3. Если все шаги прошли успешно, собранная продакшн версия файлов проекта
-   отправляется в ветку `gh-pages`. В противном случае, в логе выполнения
-   скрипта будет указано в чем проблема.
+This project is licensed under the MIT License.

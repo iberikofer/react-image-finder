@@ -1,47 +1,53 @@
 import { useEffect } from 'react';
-import * as basicLightbox from 'basiclightbox';
-import css from './Modal.module.css';
 import PropTypes from 'prop-types';
+import css from './Modal.module.css';
 
-export const Modal = ({ selectedImage, closeModal }) => {
+export const Modal = ({ selectedImage, altText, closeModal }) => {
   useEffect(() => {
-    const handleCloseModal = e => {
+    const handleKeyDown = e => {
       if (e.key === 'Escape') {
         closeModal();
       }
     };
 
-    window.addEventListener('keydown', handleCloseModal);
+    // Lock body scrolling while modal is active
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleCloseModal);
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
     };
   }, [closeModal]);
 
-  const handleOpenModal = () => {
-    const instance = basicLightbox.create(
-      `<img src="${selectedImage}" alt="Bigger modal image">`
-    );
-    instance.show();
-  };
-
-  const handleOverlayClick = e => {
+  const handleBackdropClick = e => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
   };
 
-  const handleImageClick = e => {
-    e.stopPropagation();
-  };
-
   return (
-    <div className={css.overlay} onClick={handleOverlayClick}>
-      <div className={css.modal} onClick={handleImageClick}>
+    <div
+      className={css.overlay}
+      onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Image preview"
+    >
+      <div className={css.modal}>
+        <button
+          type="button"
+          className={css.closeButton}
+          onClick={closeModal}
+          aria-label="Close modal"
+        >
+          &times;
+        </button>
         <img
           src={selectedImage}
-          alt="Big modal img"
-          onClick={handleOpenModal}
-          style={{ maxWidth: '100%' }}
+          alt={altText || 'Full size photo preview'}
+          className={css.modalImage}
         />
       </div>
     </div>
@@ -50,7 +56,10 @@ export const Modal = ({ selectedImage, closeModal }) => {
 
 Modal.propTypes = {
   selectedImage: PropTypes.string.isRequired,
+  altText: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
 };
 
-export default Modal;
+Modal.defaultProps = {
+  altText: '',
+};

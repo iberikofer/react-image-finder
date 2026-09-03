@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="themeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e55d87" />
+      <stop offset="100%" stop-color="#5fc3e4" />
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14192b" />
+      <stop offset="100%" stop-color="#0b0e17" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#e55d87" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Background rounded canvas -->
+  <rect x="32" y="32" width="448" height="448" rx="104" ry="104" fill="url(#bgGrad)" stroke="rgba(255, 255, 255, 0.08)" stroke-width="6" />
+
+  <g filter="url(#glow)">
+    <!-- Magnifier Lens Rim -->
+    <circle cx="218" cy="218" r="116" fill="none" stroke="url(#themeGrad)" stroke-width="26" />
+
+    <!-- Magnifier Handle -->
+    <path d="M 302 302 L 396 396" stroke="url(#themeGrad)" stroke-width="30" stroke-linecap="round" />
+
+    <!-- Image inside lens: Sun / Aperture -->
+    <circle cx="258" cy="174" r="18" fill="url(#themeGrad)" />
+
+    <!-- Image inside lens: Mountain peaks -->
+    <!-- Primary mountain -->
+    <polygon points="152,274 206,204 256,274" fill="url(#themeGrad)" opacity="0.95" />
+    <!-- Secondary mountain -->
+    <polygon points="228,274 262,228 292,274" fill="url(#themeGrad)" opacity="0.65" />
+    
+    <!-- Base horizon line inside lens -->
+    <line x1="144" y1="274" x2="294" y2="274" stroke="url(#themeGrad)" stroke-width="8" stroke-linecap="round" />
+  </g>
+</svg>
